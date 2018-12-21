@@ -1,10 +1,10 @@
-pragma solidity >=0.4.25 <0.6.0;
+pragma solidity 0.4.25;
 
 contract Prediction {
     
     address private owner;
     
-    mapping(bytes => string) private predictionMap;
+    mapping(bytes32 => string) private predictionMap;
     // set as public and can be viewed by anyone
     int public uniquePredictions = 0;
     int public predictions = 0;
@@ -37,13 +37,13 @@ contract Prediction {
 }
 
 library StringAsKey {
-    function convert(string memory key) public pure returns (bytes memory ret) {
-        if (bytes(key).length > 40) {
-          revert("Key length > 40!");
+    function convert(string memory key) public pure returns (bytes32 ret) {
+        if (bytes(key).length > 32) {
+          revert("Key length > 32!");
         }
     
         assembly {
-          ret := mload(add(key, 40))
+          ret := mload(add(key, 32))
         }
     }
 }
